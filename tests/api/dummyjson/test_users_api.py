@@ -13,16 +13,18 @@ from sources.api.dummyjson.users_client import UsersClient
 class TestDummyUsersAPI:
     @allure.id("API-USER-200-001")
     @allure.title("API-USER-200-001 - Get Single User Success")
-    async def test_get_single_user(self, users_client: UsersClient):
-        with step("Send GET request to /users/1"):
-            response = await users_client.get_user(user_id=1)
+    async def test_get_single_user(self, users_client: UsersClient):        
+        with step("Send GET request to single users endpoint"):
+            from random import randint
+            user_id = randint(1, 100)
+            response = await users_client.get_user(user_id=user_id)
 
         with step("Verify response status is 200"):
             assert response.status_code == 200
 
         with step("Verify user data structure"):
             data = response.json()
-            assert data["id"] == 1
+            assert data["id"] == user_id
             assert "firstName" in data
             assert "lastName" in data
             assert "email" in data
