@@ -11,7 +11,6 @@ from sources.api.dummyjson.products_client import ProductsClient
 @allure.feature("Products")
 @allure.story("Products API Endpoints")
 class TestDummyProductsAPI:
-    @pytest.mark.asyncio
     @allure.id("API-PROD-200-001")
     @allure.title("API-PROD-200-001 - Get Single Product Success")
     async def test_get_single_product(self, products_client: ProductsClient):
@@ -28,8 +27,7 @@ class TestDummyProductsAPI:
             assert "description" in data
             assert "price" in data
             assert "category" in data
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-002")
     @allure.title("API-PROD-200-002 - Get Products List with Pagination")
     async def test_get_products_list(self, products_client: ProductsClient):
@@ -48,8 +46,7 @@ class TestDummyProductsAPI:
             assert data["limit"] == 10
             assert data["skip"] == 0
             assert len(data["products"]) <= 10
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-003")
     @allure.title("API-PROD-200-003 - Search Products")
     async def test_search_products(self, products_client: ProductsClient):
@@ -69,8 +66,7 @@ class TestDummyProductsAPI:
                     found_relevant = True
                     break
             assert found_relevant, "Search results should contain relevant products"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-004")
     @allure.title("API-PROD-200-004 - Get Product Categories")
     async def test_get_categories(self, products_client: ProductsClient):
@@ -82,8 +78,7 @@ class TestDummyProductsAPI:
             categories = response.json()
             assert isinstance(categories, list)
             assert len(categories) > 0
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-005")
     @allure.title("API-PROD-200-005 - Get Products by Category")
     async def test_get_products_by_category(self, products_client: ProductsClient):
@@ -99,8 +94,7 @@ class TestDummyProductsAPI:
         with step("Verify all products belong to category"):
             for product in data["products"]:
                 assert product["category"] == "smartphones"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-201-001")
     @allure.title("API-PROD-201-001 - Create Product")
     async def test_create_product(self, products_client: ProductsClient):
@@ -121,8 +115,7 @@ class TestDummyProductsAPI:
             assert "id" in data
             assert data["title"] == product_payload["title"]
             assert data["price"] == product_payload["price"]
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-006")
     @allure.title("API-PROD-200-006 - Update Product (PUT)")
     async def test_update_product_put(self, products_client: ProductsClient):
@@ -141,8 +134,7 @@ class TestDummyProductsAPI:
             data = response.json()
             assert data["title"] == "Updated Product Title"
             assert data["price"] == 149.99
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-007")
     @allure.title("API-PROD-200-007 - Update Product (PATCH)")
     async def test_update_product_patch(self, products_client: ProductsClient):
@@ -157,8 +149,7 @@ class TestDummyProductsAPI:
             assert response.status_code == 200
             data = response.json()
             assert data["title"] == "Patched Title"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-008")
     @allure.title("API-PROD-200-008 - Delete Product")
     async def test_delete_product(self, products_client: ProductsClient):
@@ -170,8 +161,7 @@ class TestDummyProductsAPI:
             data = response.json()
             assert data["isDeleted"] is True
             assert data["deletedOn"] is not None
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-009")
     @allure.title("API-PROD-200-009 - Concurrent Product Requests")
     async def test_concurrent_product_requests(self, products_client: ProductsClient):
@@ -188,8 +178,7 @@ class TestDummyProductsAPI:
                 data = response.json()
                 assert "id" in data
                 assert "title" in data
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-010")
     @allure.title("API-PROD-200-010 - Concurrent Search Requests")
     async def test_concurrent_search_requests(self, products_client: ProductsClient):
@@ -206,8 +195,7 @@ class TestDummyProductsAPI:
                 assert response.status_code == 200
                 data = response.json()
                 assert "products" in data
-
-    @pytest.mark.asyncio
+    
     @pytest.mark.parametrize("product_id", [1, 2, 3, 4, 5])
     @allure.id("API-PROD-200-011")
     @allure.title("API-PROD-200-011 - Parameterized Product Retrieval")
@@ -219,8 +207,7 @@ class TestDummyProductsAPI:
             assert response.status_code == 200
             data = response.json()
             assert data["id"] == product_id
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-404-001")
     @allure.title("API-PROD-404-001 - Product Not Found")
     async def test_get_nonexistent_product(self, products_client: ProductsClient):
@@ -231,8 +218,7 @@ class TestDummyProductsAPI:
             assert response.status_code == 404
             data = response.json()
             assert "message" in data
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-PROD-200-012")
     @allure.title("API-PROD-200-012 - Search with No Results")
     async def test_search_no_results(self, products_client: ProductsClient):

@@ -10,7 +10,6 @@ from sources.api.dummyjson.auth_client import AuthClient
 @allure.feature("Authentication")
 @allure.story("Auth API Endpoints")
 class TestDummyAuthAPI:
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-200-001")
     @allure.title("DMJS-AUTH-200-001 - Login Success")
     async def test_login_success(self, auth_client: AuthClient):
@@ -33,9 +32,6 @@ class TestDummyAuthAPI:
             assert len(data["accessToken"].split(".")) == 3
             assert len(data["refreshToken"].split(".")) == 3
 
-
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-400-001")
     @allure.title("DMJS-AUTH-400-001 - Login with Invalid Credentials")
     async def test_login_invalid_credentials(self, auth_client: AuthClient):
@@ -50,9 +46,6 @@ class TestDummyAuthAPI:
             data = response.json()
             assert "message" in data
 
-
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-400-002")
     @allure.title("DMJS-AUTH-400-002 - Login with Missing Password")
     async def test_login_missing_password(self, auth_client: AuthClient):
@@ -62,9 +55,6 @@ class TestDummyAuthAPI:
         with step("Verify error response"):
             assert response.status_code == 400
 
-
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-200-002")
     @allure.title("DMJS-AUTH-200-002 - Get Current Authenticated User")
     async def test_get_current_user(self, auth_client: AuthClient):
@@ -85,9 +75,6 @@ class TestDummyAuthAPI:
             assert "id" in data
             assert "email" in data
 
-
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-401-001")
     @allure.title("DMJS-AUTH-401-001 - Get Current User with Invalid Token")
     async def test_get_current_user_invalid_token(self, auth_client: AuthClient):
@@ -100,8 +87,6 @@ class TestDummyAuthAPI:
             assert "message" in data
 
 
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-200-003")
     @allure.title("DMJS-AUTH-200-003 - Refresh Access Token")
     async def test_refresh_token_success(self, auth_client: AuthClient):
@@ -122,8 +107,6 @@ class TestDummyAuthAPI:
             assert "refreshToken" in data
 
 
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-403-001")
     @allure.title("DMJS-AUTH-403-001 - Refresh Token with Invalid Token")
     async def test_refresh_token_invalid(self, auth_client: AuthClient):
@@ -134,8 +117,6 @@ class TestDummyAuthAPI:
             assert response.status_code == 403
 
 
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-200-004")
     @allure.title("DMJS-AUTH-200-004 - Login with Custom Expiration")
     async def test_login_custom_expiration(self, auth_client: AuthClient):
@@ -156,8 +137,6 @@ class TestDummyAuthAPI:
             assert "refreshToken" in data
 
 
-    @pytest.mark.api
-    @pytest.mark.asyncio
     @allure.id("DMJS-AUTH-200-005")
     @allure.title("DMJS-AUTH-200-005 - Complete Auth Flow")
     async def test_complete_auth_flow(self, auth_client: AuthClient):

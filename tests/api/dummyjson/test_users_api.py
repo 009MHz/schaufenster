@@ -11,7 +11,6 @@ from sources.api.dummyjson.users_client import UsersClient
 @allure.feature("Users")
 @allure.story("Users API Endpoints")
 class TestDummyUsersAPI:
-    @pytest.mark.asyncio
     @allure.id("API-USER-200-001")
     @allure.title("API-USER-200-001 - Get Single User Success")
     async def test_get_single_user(self, users_client: UsersClient):
@@ -28,8 +27,7 @@ class TestDummyUsersAPI:
             assert "lastName" in data
             assert "email" in data
             assert "username" in data
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-002")
     @allure.title("API-USER-200-002 - Get Users List with Pagination")
     async def test_get_users_list(self, users_client: UsersClient):
@@ -48,8 +46,7 @@ class TestDummyUsersAPI:
             assert data["limit"] == 10
             assert data["skip"] == 0
             assert len(data["users"]) <= 10
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-003")
     @allure.title("API-USER-200-003 - Search Users")
     async def test_search_users(self, users_client: UsersClient):
@@ -69,8 +66,7 @@ class TestDummyUsersAPI:
                         found_relevant = True
                         break
                 assert found_relevant, "Search results should contain relevant users"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-004")
     @allure.title("API-USER-200-004 - Filter Users")
     async def test_filter_users(self, users_client: UsersClient):
@@ -81,8 +77,7 @@ class TestDummyUsersAPI:
             assert response.status_code == 200
             data = response.json()
             assert "users" in data
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-201-001")
     @allure.title("API-USER-201-001 - Create User")
     async def test_create_user(self, users_client: UsersClient):
@@ -103,8 +98,7 @@ class TestDummyUsersAPI:
             assert "id" in data
             assert data["firstName"] == user_payload["firstName"]
             assert data["lastName"] == user_payload["lastName"]
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-005")
     @allure.title("API-USER-200-005 - Update User (PUT)")
     async def test_update_user_put(self, users_client: UsersClient):
@@ -124,8 +118,7 @@ class TestDummyUsersAPI:
             data = response.json()
             assert data["firstName"] == "Updated"
             assert data["lastName"] == "Name"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-006")
     @allure.title("API-USER-200-006 - Update User (PATCH)")
     async def test_update_user_patch(self, users_client: UsersClient):
@@ -140,8 +133,7 @@ class TestDummyUsersAPI:
             assert response.status_code == 200
             data = response.json()
             assert data["firstName"] == "Patched"
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-007")
     @allure.title("API-USER-200-007 - Delete User")
     async def test_delete_user(self, users_client: UsersClient):
@@ -153,8 +145,7 @@ class TestDummyUsersAPI:
             data = response.json()
             assert data["isDeleted"] is True
             assert data["deletedOn"] is not None
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-200-008")
     @allure.title("API-USER-200-008 - Concurrent User Requests")
     async def test_concurrent_user_requests(self, users_client: UsersClient):
@@ -171,8 +162,7 @@ class TestDummyUsersAPI:
                 data = response.json()
                 assert "id" in data
                 assert "firstName" in data
-
-    @pytest.mark.asyncio
+    
     @pytest.mark.parametrize("user_id", [1, 2, 3, 4, 5])
     @allure.id("API-USER-200-009")
     @allure.title("API-USER-200-009 - Parameterized User Retrieval")
@@ -184,8 +174,7 @@ class TestDummyUsersAPI:
             assert response.status_code == 200
             data = response.json()
             assert data["id"] == user_id
-
-    @pytest.mark.asyncio
+    
     @allure.id("API-USER-404-001")
     @allure.title("API-USER-404-001 - User Not Found")
     async def test_get_nonexistent_user(self, users_client: UsersClient):
