@@ -17,9 +17,6 @@ class AuthClient(BaseAPIClient):
             username: Username (e.g., 'emilys')
             password: Password (e.g., 'emilyspass')
             expires_in_mins: Token expiration in minutes (default: 30)
-
-        Returns:
-            httpx.Response with access token and refresh token
         """
         payload = {
             "username": username,
@@ -34,9 +31,6 @@ class AuthClient(BaseAPIClient):
 
         Args:
             access_token: JWT access token from login
-
-        Returns:
-            httpx.Response with user data
         """
         headers = {"Authorization": f"Bearer {access_token}"}
         return await self.async_get("/auth/me", headers=headers)
@@ -48,9 +42,6 @@ class AuthClient(BaseAPIClient):
         Args:
             refresh_token: Refresh token from login
             expires_in_mins: New token expiration in minutes (default: 30)
-
-        Returns:
-            httpx.Response with new access and refresh tokens
         """
         payload = {
             "refreshToken": refresh_token,
