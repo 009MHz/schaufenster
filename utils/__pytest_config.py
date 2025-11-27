@@ -55,7 +55,7 @@ def add_pytest_options(parser):
     parser.addoption(
         "--test-env",
         action="store",
-        default="qa",
+        default="dev",
         help="Specify the API test environment: dev, qa, staging, production",
     )
     parser.addoption(
